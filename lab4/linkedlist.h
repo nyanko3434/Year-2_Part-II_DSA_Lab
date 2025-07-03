@@ -77,3 +77,82 @@ public:
         }
         size++;
     }
+
+    void removeEnd(){
+        Node<T>* temp = tail;
+        if (!head) {
+            std::cout << "List is empty\n";
+            return;
+        }
+        if (head->next == nullptr) {
+            head = nullptr;
+            tail = nullptr;
+        } else {
+            Node<T>* current = head;
+            while (current->next != tail) {
+                current = current->next;
+            }
+            current->next = nullptr;
+            tail = current;
+        }
+        delete temp;
+        size--;
+    }
+
+    void removeFront(){
+        if (!head) {
+            std::cout << "List is empty\n";
+            return;
+        }
+        Node<T>* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    void remove_at(int index) {
+        if (index < 0 || index >= size) {
+            throw std::out_of_range("Index out of range");
+        }
+        Node<T>* temp;
+        if (index == 0) {
+            temp = head;
+            head = head->next;
+            if (!head) {
+                tail = nullptr;
+            }
+        } else {
+            Node<T>* current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current->next;
+            }
+            temp = current->next;
+            current->next = temp->next;
+            if (temp == tail) {
+                tail = current;
+            }
+        }
+        delete temp;
+        size--;
+    }
+
+    void display_list(char sep = ' ') const {
+        Node<T>* current = head;
+        if (!current) {
+            std::cout << "List is empty\n";
+            return;
+        }
+        while (current) {
+            std::cout << current->data;
+            if (current->next) {
+                std::cout << sep;
+            }
+            current = current->next;
+        }
+        std::cout << "\n";
+    }
+
+    int getSize() const {
+        return size;
+    }
+
+};
